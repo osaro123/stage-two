@@ -10,6 +10,7 @@ const MovieDetail = () => {
   const { id } = useParams();
   const [movieDetails, setMovieDetails] = useState('');
   const apiKey = 'dc78c17436db702a0c15acae61e73ccd';
+  const [isLoading,setIsLoading] = useState(true)
 
   useEffect(() => {
     const getDetailsPageData = async () => {
@@ -21,6 +22,7 @@ const MovieDetail = () => {
               setMovieDetails(data);
         }catch(err){
             console.log(err);
+            setIsLoading(false)
         }
     };
     getDetailsPageData();
@@ -30,6 +32,14 @@ const MovieDetail = () => {
   const runtimeMinutes = Math.round((movieDetails.runtime - runtimeHours) * 60);
 
   const releaseDateUTC = new Date(movieDetails.release_date).toUTCString();
+
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className='flex flex-col lg:flex-row'>

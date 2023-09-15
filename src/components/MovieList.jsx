@@ -6,6 +6,7 @@ import SearchComponent from './SearchComponent';
 const MovieList = () => {
   const [topMovies, setTopMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading,setIsLoading] = useState(true)
 
   useEffect(() => {
     // Define your TMDB API endpoint for top-rated movies
@@ -22,8 +23,17 @@ const MovieList = () => {
       })
       .catch((error) => {
         console.error('Error fetching top movies:', error);
+        setIsLoading(false)
       });
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className='px-8'>
