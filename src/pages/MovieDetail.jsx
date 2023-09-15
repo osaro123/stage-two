@@ -10,19 +10,20 @@ const MovieDetail = () => {
   const { id } = useParams();
   const [movieDetails, setMovieDetails] = useState('');
   const apiKey = 'dc78c17436db702a0c15acae61e73ccd';
-  const [isLoading,setIsLoading] = useState(true)
+  const [isLoading,setIsLoading] = useState(false)
 
   useEffect(() => {
     const getDetailsPageData = async () => {
         try{
+            setIsLoading(true)
             const response = await fetch(
                 `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`
               );
               const data = await response.json();
               setMovieDetails(data);
+              setIsLoading(false)
         }catch(err){
             console.log(err);
-            setIsLoading(false)
         }
     };
     getDetailsPageData();

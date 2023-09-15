@@ -6,7 +6,7 @@ import SearchComponent from './SearchComponent';
 const MovieList = () => {
   const [topMovies, setTopMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isLoading,setIsLoading] = useState(true)
+  const [isLoading,setIsLoading] = useState(false)
 
   useEffect(() => {
     // Define your TMDB API endpoint for top-rated movies
@@ -15,15 +15,16 @@ const MovieList = () => {
 
     // Make an API request to fetch the top 10 movies
     fetch(apiUrl)
+    setIsLoading(true)
       .then((response) => response.json())
       .then((data) => {
         // Extract the top 10 movies from the API response
         const top10Movies = data.results.slice(0, 10);
         setTopMovies(top10Movies);
+        setIsLoading(false)
       })
       .catch((error) => {
         console.error('Error fetching top movies:', error);
-        setIsLoading(false)
       });
   }, []);
 

@@ -6,17 +6,18 @@ import Footer from '../components/Footer';
 const Movies = () => {
     const BASE_URL = "https://api.themoviedb.org/3/discover/movie?api_key=dc78c17436db702a0c15acae61e73ccd"
     const [movies, setMovies] = useState([])
-    const [isLoading,setIsLoading] = useState(true)
+    const [isLoading,setIsLoading] = useState(false)
     useEffect(() => {
         const fetchMovies = async () => {
             try{
+                setIsLoading(true)
                 const response = await fetch(`${BASE_URL}`)
                 const data = await response.json()
                 setMovies(data)
                 console.log(data);
+                setIsLoading(false)
             }catch(err){
                 console.log(err);
-                setIsLoading(false)
             }
         }
         fetchMovies()
