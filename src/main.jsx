@@ -7,7 +7,7 @@ import MovieDetail from './pages/MovieDetail'
 
 const router = createBrowserRouter([
   {
-    path: "/movies",
+    path: "/",
     element: <Movies/>
   },
   {
