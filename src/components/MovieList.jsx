@@ -8,24 +8,28 @@ const MovieList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading,setIsLoading] = useState(false)
 
-  useEffect(() => {
-    // Define your TMDB API endpoint for top-rated movies
-    const apiKey = 'dc78c17436db702a0c15acae61e73ccd';
-    const apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
+  
+  const fetchTopMovies = async () => {
+    try {
+      setIsLoading(true);
+      const apiKey = 'dc78c17436db702a0c15acae61e73ccd';
+      const apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
 
-    // Make an API request to fetch the top 10 movies
-    fetch(apiUrl)
-    setIsLoading(true)
-      .then((response) => response.json())
-      .then((data) => {
-        // Extract the top 10 movies from the API response
-        const top10Movies = data.results.slice(0, 10);
-        setTopMovies(top10Movies);
-        setIsLoading(false)
-      })
-      .catch((error) => {
-        console.error('Error fetching top movies:', error);
-      });
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      // Extract the top 10 movies from the API response
+      const top10Movies = data.results.slice(0, 10);
+      setTopMovies(top10Movies);
+    } catch (error) {
+      console.error('Error fetching top movies:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTopMovies();
   }, []);
 
   if (isLoading) {
